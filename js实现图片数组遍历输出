@@ -1,0 +1,17 @@
+本地图片数组的遍历：
+（attention！！！：vue中的js引入图片，必须require进来 或者引用网络地址）
+data(){
+    return{   
+        imgData: [
+        { image: require('../assets/examplePicture/correctPosture.png') },
+        { image: require('../assets/examplePicture/wrongPosture1.png') },
+        { image: require('../assets/examplePicture/wrongPosture2.png') },
+        { image: require('../assets/examplePicture/wrongPosture3.png') },
+      ], //照片数组
+    }
+  },
+  <span>走马灯轮播图</span>
+    <el-carousel :interval="4000" type="card" height="200px">
+      <el-carousel-item v-for="(item,index) in imgData" :key="index">
+        <img :src="item.image" alt />
+      </el-carousel-item>
