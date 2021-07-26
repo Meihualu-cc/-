@@ -1,0 +1,11 @@
+error: 'XXX' is defined but never used (no-unused-vars）
+解决方案：
+package.js中加入如下代码：
+   "rules": {
+      "generator-star-spacing": "off",
+	"no-tabs":"off",
+	"no-unused-vars":"off",
+	"no-console":"off",
+	"no-irregular-whitespace":"off",
+	"no-debugger": "off"
+    }
