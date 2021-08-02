@@ -1,0 +1,98 @@
+（1）情况1，文本直接放在标签中
+HNTL:
+<div>
+      <h1 id="description">js实现关键字高亮</h1>
+</div>
+JS:
+  mounted(){
+this.height()
+  },
+ methods: {
+    height() {
+      var content = document.getElementById('description').innerHTML
+      var s = '关键字'
+      var reg = new RegExp('(' + s + ')', 'g')
+      var str = content
+      var newstr = str.replace(reg, '<font color=red>$1</font>')
+      document.getElementById('description').innerHTML = newstr
+    }
+  }
+ （2）情况2，文本在DOM加载完之后，通过接口获取
+ HTML:
+ <p v-else class="time" v-html="item.applyTime"></p>
+ JS：
+   this.$http.post(URL_QUERYRELATIVESBYACCNUM, postData1).then(res => {
+        if (res.code === 1) {
+          this.familyList = res.list
+          // console.log('亲友列表', res.list)
+          for (let item of this.familyList) {
+            if (item.contactAffixFace) {
+              item.imgUrl = 'data:image/jpeg;base64,' + item.contactAffixFace
+            }
+            var myFamilyList = []
+            for (var key in item) {
+              myFamilyList[key] = item[key]
+            }
+            if (item.checkTime) {
+              item.checkTime = item.checkTime.substring(0, 10)
+            }
+            if (item.applyTime) {
+              item.applyTime = item.applyTime.substring(0, 10)
+            }
+            if (item.state === 2) {
+              item.applyTime = item.applyTime
+                .substring(0, 10)
+                .concat('上传的照片正在审核中，请耐心等待')
+              var str = item.applyTime
+              var newstr = str.replace(
+                '审核中',                                        //正则replace方法
+                '<span style="color:#f78802">审核中</span>'
+              )
+              item.applyTime = newstr
+            }
+            if (item.state === 4) {
+              if (item.checkTime) {
+                this.failReason = item.reasons
+                item.checkTime = item.checkTime
+                  .substring(0, 10)
+                  .concat('审核失败，')
+                  .concat(item.reasons)
+                var str1 = '您上传的照片于' + item.checkTime
+                var newstr1 = str1.replace(
+                  '审核失败',
+                  '<span style="color:#d32222">审核失败</span>'
+                )
+                item.checkTime = newstr1
+              } else if (item.applyTime) {
+                if (item.reasons) {
+                  item.applyTime = item.applyTime
+                    .substring(0, 10)
+                    .concat('上传的照片审核失败，')
+                    .concat(item.reasons)
+                  var str2 = item.applyTime
+                  var newstr2 = str2.replace(
+                    '审核失败',
+                    '<span style="color:#d32222">审核失败</span>'
+                  )
+                  item.applyTime = newstr2
+                } else {
+                  item.applyTime = item.applyTime
+                    .substring(0, 10)
+                    .concat('上传的照片审核失败')
+                  var str3 = item.applyTime
+                  var newstr3 = str3.replace(
+                    '审核失败',
+                    '<span style="color:#d32222">审核失败</span>'
+                  )
+                  item.applyTime = newstr3
+                }
+              }
+            }
+          }
+          // console.log('亲友列表带照片审核状态', this.familyList)
+          Toast.clear()
+        } else {
+          // this.$toast(res.msg)
+          // console.log('轻提示', res.msg)
+        }
+      })
