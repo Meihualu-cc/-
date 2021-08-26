@@ -1,0 +1,5 @@
+1.jquery 比较重，如果需要另外引入不建议使用
+2.axios:轻量级，建议使用
+   1）封装XmlHttpRequest对象的ajax
+   2）promise风格
+   3）可以用在浏览器端和node服务器端
