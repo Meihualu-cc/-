@@ -1,0 +1,4 @@
+报错：Duplicate keys detected: '1'. This may cause an update error.
+原因：原因： key值不唯一
+解决: 仔细检查是否用了同一个数据循环且:key值相同，如果相同给第二个key随便加一个标记就可以，如下：
+:key="index + '-only'"
